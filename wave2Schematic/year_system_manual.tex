@@ -1,12 +1,14 @@
 \documentclass{standalone}
 \usepackage{tikz}
 \usetikzlibrary{calc}
+\usetikzlibrary{shapes.geometric}
 
 % Configuration parameters - EASY TO CHANGE!
 \def\startYear{1979}
-\def\endYear{1996} 
+\def\endYear{1992} 
 \def\unitsPerYear{2}
 \def\timeStep{3}  % Step between year markers (1=every year, 2=every 2 years, 3=every 3 years, etc.)
+\def\nodeLineSpacing{0.8}  % Line spacing multiplier for multi-line node text (0.8 = tighter, 1.2 = looser)
 
 % Define a function to convert years to coordinates
 \newcommand{\yearToCoord}[1]{%
@@ -18,62 +20,125 @@
 % Centers the timeline so x=0 is at the middle of the timeline
 \newcommand{\x}[1]{(#1-\startYear)*\unitsPerYear - (\endYear-\startYear)*\unitsPerYear/2}
 
+% Define colors and styles like in the original
+\definecolor{col_trigger}{RGB}{200,100,0}
+\definecolor{col_event}{RGB}{0,100,180}
+\definecolor{col_superstructure}{RGB}{0,150,50}
+\definecolor{col_crisis}{RGB}{180,0,0}
+
+% Define TikZ styles for event types - fully adaptive to content with configurable line spacing
+\tikzset{
+    trigger/.style={
+        regular polygon,
+        regular polygon sides=6,
+        align=center,
+        draw=col_trigger!40, fill=col_trigger!20,
+        line width=0.8pt,
+        inner sep=-8pt,
+        rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    },
+    event/.style={
+        ellipse, align=center,
+        draw=col_event!40, fill=col_event!20,
+        line width=0.8pt,
+        inner sep=2pt,
+        rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    },
+    superstructure/.style={
+        rectangle, align=center,
+        draw=col_superstructure!40, fill=col_superstructure!20,
+        line width=0.8pt,
+        inner sep=2pt,
+        rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    },
+    crisis/.style={
+        star,
+        star points=7,
+        align=center,
+        draw=col_crisis!40, fill=col_crisis!15,
+        line width=0.8pt,
+        inner sep=-6pt,
+        rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    }
+}
+
+% Command to draw the complete timeline - use this in your tikzpicture
+\newcommand{\drawTimeline}{%
+    % Calculate timeline bounds dynamically - centered on x=0
+    \pgfmathsetmacro{\timelineStart}{(\startYear-\startYear)*\unitsPerYear - (\endYear-\startYear)*\unitsPerYear/2}%
+    \pgfmathsetmacro{\timelineEnd}{(\endYear-\startYear)*\unitsPerYear - (\endYear-\startYear)*\unitsPerYear/2}%
+    
+    % Timeline using dynamic coordinates
+    \draw[gray,thick] (\timelineStart,0) -- (\timelineEnd,0);
+    
+    % Year markers - automatically generated based on timeStep
+    \foreach \year in {\startYear,\the\numexpr\startYear+\timeStep\relax,...,\endYear} {
+        \draw[gray] ({\x{\year}},-0.2) -- ({\x{\year}},0.2); 
+        \node[below,font=\tiny] at ({\x{\year}},-0.3) {\year};
+    }
+    % Always include endYear marker if not already covered
+    \pgfmathtruncatemacro{\lastRegularYear}{\startYear + \timeStep*floor((\endYear-\startYear)/\timeStep)}%
+    \ifnum\lastRegularYear<\endYear
+        \draw[gray] ({\x{\endYear}},-0.2) -- ({\x{\endYear}},0.2); 
+        \node[below,font=\tiny] at ({\x{\endYear}},-0.3) {\endYear};
+    \fi
+}
+
+% Command to draw legend - positioned below timeline
+\newcommand{\drawLegend}{%
+    \begin{scope}[shift={(0,-2)}]
+        % Event type legend - properly spaced horizontally
+        \node[trigger, minimum height=0.4cm, inner sep=-3] at (-6,0) {\scriptsize Triggers};
+        
+        \node[event, minimum height=0.4cm] at (-3,0) {\scriptsize Events};
+        
+        \node[superstructure, minimum height=0.4cm] at (0,0) {\scriptsize Policy\\ \scriptsize Responses};
+        
+        \node[crisis, minimum height=0.4cm, inner sep=-2] at (3,0) {\scriptsize Crises};
+        
+        % Arrow types legend
+        \draw[->, thick, color=col_trigger] (-7,-.9) -- (-5.8,-.9);
+        \node[anchor=west, font=\scriptsize] at (-5.7,-.9) {External Causation};
+        
+        \draw[->, thick, color=col_event] (-2.5,-.9) -- (-1.3,-.9);
+        \node[anchor=west, font=\scriptsize] at (-1.2,-.9) {Financial Transmission};
+        
+        \draw[->, thick, color=col_superstructure] (2.5,-.9) -- (3.7,-.9);
+        \node[anchor=west, font=\scriptsize] at (3.8,-.9) {Policy Impact};
+    \end{scope}
+}
+
 \begin{document}
 
 \begin{tikzpicture}
 
-% Calculate timeline bounds dynamically - centered on x=0
-\pgfmathsetmacro{\timelineStart}{(\startYear-\startYear)*\unitsPerYear - (\endYear-\startYear)*\unitsPerYear/2}
-\pgfmathsetmacro{\timelineEnd}{(\endYear-\startYear)*\unitsPerYear - (\endYear-\startYear)*\unitsPerYear/2}
+% Draw the complete timeline with one command!
+\drawTimeline
 
-% Timeline using dynamic coordinates
-\draw[gray,thick] (\timelineStart,0) -- (\timelineEnd,0);
-
-% Year markers - automatically generated based on timeStep
-\foreach \year in {\startYear,\the\numexpr\startYear+\timeStep\relax,...,\endYear} {
-    \draw[gray] ({\x{\year}},-0.2) -- ({\x{\year}},0.2); 
-    \node[below,font=\tiny] at ({\x{\year}},-0.3) {\year};
-}
-% Always include endYear marker if not already covered
-\pgfmathtruncatemacro{\lastRegularYear}{\startYear + \timeStep*floor((\endYear-\startYear)/\timeStep)}
-\ifnum\lastRegularYear<\endYear
-    \draw[gray] ({\x{\endYear}},-0.2) -- ({\x{\endYear}},0.2); 
-    \node[below,font=\tiny] at ({\x{\endYear}},-0.3) {\endYear};
-\fi
-
-% Events positioned by YEAR
-\node[draw,fill=blue!20,align=center] at ({\x{1980}},1.5) {
+% Events positioned by YEAR - using legend styles with node names for referencing
+\node[trigger] (volcker) at ({\x{1980}},1.5) {
     \textbf{Volcker Shock}\\April 1980
 };
 
-\node[draw,fill=red!20,align=center] at ({\x{1982}},0.8) {
-    \textbf{Mexico Default}\\August 1982
+\node[event] (mexico) at ({\x{1982.6}},1) {
+        August 1982 \\
+    \textbf{Mexico Default}\\Spread to the rest \\ of the semi-periphery
 }; 
 
-\node[draw,fill=green!20,align=center] at ({\x{1991}},1) {
-    \textbf{Yugoslavia Crisis}\\August 1991
+\node[crisis] (yugoslavia) at ({\x{1991}},1) {
+        \textbf{Yugoslavia}\\Crisis\\August 1991
 };
 
+% Connect events with arrows using node anchors - much more robust than hardcoded coordinates
+\draw[->,thick,color=col_trigger] (volcker.east) -- (mexico.west);
+\draw[->,thick,color=col_event] (mexico.east) -- (yugoslavia.west);
 
-% Connect events with arrows - now using \x{} command!
-\draw[->,thick,blue] ({\x{1980}},1.2) -- ({\x{1982}},1.1);
-\draw[->,thick,red] ({\x{1982}},0.5) -- ({\x{1991}},0.5);
-
-% Title showing SUCCESS
-\node[above,font=\large\bfseries] at (0,2.5) {SUCCESS: Write Years Directly!};
-\node[above,align=center] at (0,2) {
-    \textbf{You can now write:} \\
-    \texttt{at (\{\textbackslash x\{1980.3\}\},y)} for April 1980 \\
-    \textbf{Instead of calculating coordinates manually!}
-};
-
-% Show the implementation
-\node[draw,thick,align=left] at (0,-2.8) {
-    \textbf{Working syntax:}\\
-    1. Define: \texttt{\textbackslash newcommand\{\textbackslash x\}[1]\{(\textbackslash\#1-\textbackslash startYear)*\textbackslash unitsPerYear\}}\\
-    2. Use: \texttt{at (\{\textbackslash x\{1991.6\}\},-0.8)} \\
-    3. Key: wrap in \texttt{\{braces\}} for TikZ calc syntax!
-};
+% Draw the legend
+\drawLegend
 
 \end{tikzpicture}
 \end{document}

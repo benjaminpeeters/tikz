@@ -1,0 +1,157 @@
+
+\documentclass[12pt, border=0pt,crop=true,preview=false]{standalone}
+
+
+\input{/home/ben/config/latex/preamble/preambleWord.tex}
+
+% if English
+% \usepackage[english]{babel}
+% if French (2 lines)
+\usepackage[english,french]{babel}
+\usepackage[T1]{fontenc} 
+
+\usetikzlibrary{patterns} % Load the patterns library
+\usetikzlibrary{patterns.meta}
+\usetikzlibrary{calc}
+
+
+
+
+% \pagestyle{empty}
+\begin{document}
+
+
+%============================== SETUP ==========================================
+
+% tikz variables
+% Variables must be declared in a tikzmath environment but can be used outside (almost anywhere)
+% Computations are also possible
+\tikzmath{\x1 = 4.5; \x2 =0.5; \x3 = 0.8; \l1 = 20em; \d=0.03; \height=(\x1^2 - (\x1/2)^2)^(0.5); }
+
+% figure counter
+\setcounter{figure}{2}
+
+
+%============================== FIGURE =========================================
+
+\begin{figure}[htbp!]
+    \centering
+    \hspace*{-1.5em}
+    \begin{tikzpicture}[node distance=1.5cm, auto]
+
+        % Define a custom style for the nodes
+        \tikzset{my node/.style={rectangle, draw, align=center, inner sep=3pt}}
+
+        % Define a custom style for a node filled with oblique lines of two colors
+        \tikzset{
+            my striped node/.style={
+                rectangle, 
+                align=center, 
+                draw=black, % Border color
+                inner sep=3pt,
+                postaction={
+                    pattern={
+                        Lines[angle=-45, distance=6mm,  line width=2.8mm]% <--- !
+                    },    pattern color=myred!30,
+                }
+                % line width=4pt, % Thickness of lines
+            }
+        }
+
+
+        % Nodes
+        \node[my node, text width=5.5cm, fill=myred!30, draw=myred] (research) {Recherche et Conception (Contenu, Script, References)};
+        \node[my node, text width=0.1cm, color=white] (validation) [below=2.5em of research] {};
+        \node[my node] (valid_question) [below=2em of validation] {Validé?};
+        \node[my node, text width=1cm] (valid) [below=1.5em of valid_question] {Oui};
+        \node[my node, text width=1cm] (not_valid) [right of=valid, xshift=2.5cm] {Non};
+        \node[my node, fill=myred!30, draw=myred] (modifications) [below=1.5em of valid] {Ajustements};
+        \node[my node, fill=white, draw=white] (output1) [left=1.5em of modifications] {Script et références};
+        \node[my striped node, text width=5cm] (formatting) [below=1.5em of modifications] {Mise en Forme, Communication et Simplification};
+        \node[my node, fill=white, draw=white] (output2) [left=1.5em of formatting] {Premier audio};
+        \node[my node, fill=magenta!30, draw=magenta] (communication) [below of=formatting] {Validation Communication};
+        \node[my striped node] (modifications_2) [below=1.5em of communication] {Ajustements};
+        \node[my node, fill=white, draw=white] (output3) [left=3.2em of modifications_2] {Final audio (en)};
+        \node[my striped node, fill=yellow!30, text width=6cm] (prepa_diff) [below of=modifications_2] {Préparation à la Diffusion (formatting, metadata, splits)};
+        \node[my striped node, fill=orange!30] (translation) [left=2em of prepa_diff] {Traduction};
+        \node[my striped node, fill=cyan!30, text width=5cm] (release) [below of=prepa_diff] {Diffusion \\ (Plateformes, website, app)};
+
+        % Validation Nodes
+        \node[my node, fill=myblue!30, draw=myblue] (science) [right of=validation, xshift=1.5cm] {Validation Scientifique};
+        \node[my node, fill=mygreen!30, draw=mygreen] (political) [left of=validation, xshift=-1.5cm] {Validation Politique};
+
+        % Arrows
+        \draw[->] (research) -- (science);
+        \draw[->] (research) -- (political);
+        \draw[->] (valid_question) -- (valid);
+        \draw[->, dashed] (valid_question) -- (not_valid.180);
+        \draw[->] (valid) -- (modifications);
+        \draw[->] (modifications) -- (formatting);
+        \draw[->, double] (modifications) -- (output1);
+        \draw[->] (formatting) -- (communication);
+        \draw[->, double] (formatting) -- (output2);
+        \draw[->] (communication) -- (modifications_2);
+        \draw[->] (modifications_2) -- (prepa_diff);
+        \draw[->, double] (modifications_2.180) -- (output3);
+        \draw[->, densely dotted] (modifications_2.190) -- ++(-1.9,-0.4) -- (translation.12);
+        \draw[->, densely dotted] (translation) -- (prepa_diff);
+        \draw[->] (prepa_diff) -- (release);
+
+        % Iterative Arrows for Validation
+        \draw[->, dashed] (not_valid.0) |- ++(1,0) |- (research.0);
+        \draw[->] (science)  |- (valid_question.0);
+        \draw[->] (political) |- (valid_question.180);
+
+        % Legend position (can be adjusted)
+        \coordinate (legend_position) at (9.5,-5.5);
+
+        % Legend
+        \begin{scope}[shift={(legend_position)},xshift=-5cm,yshift=-1cm]
+            \node[my node, fill=white, draw=white, text width=8cm] at (1.2,0.6) (title_leg) {Division des tâches:};
+            \node[my node, fill=myred!30, draw=myred, text width=1cm] at (0,0) (legend1) {};
+            \node[anchor=west] at (legend1.east) {Équipe centrale};
+            \node[my node, fill=myblue!30, draw=myblue, text width=1cm] at (0,-0.6) (legend2) {};
+            \node[anchor=west] at (legend2.east) {Équipe ``révision académique''};
+            \node[my node, fill=mygreen!30, draw=mygreen, text width=1cm] at (0,-1.2) (legend3) {};
+            \node[anchor=west] at (legend3.east) {Équipe ``révision politique''};
+            \node[my node, fill=magenta!30, draw=magenta, text width=1cm] at (0,-1.8) (legend4) {};
+            \node[anchor=west] at (legend4.east) {Équipe ``révision communication''};
+            \node[my node, fill=white, draw=white, text width=8cm] at (2.8,-2.4) (title_leg) {Specifiques tâches de l'équipe centrale};
+            \node[my node, fill=white, draw=white, text width=8cm] at (1.5,-3) (title_leg) {(seront séparée ensuite)};
+            \node[my striped node, text width=1cm] at (0,-3.6) (legend5) {};
+            \node[anchor=west] at (legend5.east) {Équipe communication};
+            \node[my striped node, fill=yellow!30, text width=1cm] at (0,-4.2) (legend6) {};
+            \node[anchor=west] at (legend6.east) {Équipe formatage};
+            \node[my striped node, fill=orange!30, text width=1cm] at (0,-4.8) (legend7) {};
+            \node[anchor=west] at (legend7.east) {Équipe de traduction};
+            \node[my striped node, fill=cyan!30, text width=1cm] at (0,-5.4) (legend8) {};
+            \node[anchor=west] at (legend8.east) {Équipe de diffusion};
+        \end{scope}
+
+
+
+    % Step indicators (revised positioning for both x and y alignment)
+    \node[anchor=east] at (-6.5, research.west |- research.center) {$t_1$};
+    \node[anchor=east] at (-6.5, validation |- validation) {$t_2$};
+    % \node[anchor=east] at (-6.5, valid_question.west |- valid_question.center) {t3};
+    % \node[anchor=east] at (-6.5, valid.west |- valid.center) {t4};
+    \node[anchor=east] at (-6.5, modifications.west |- modifications.center) {$t_3$};
+    \node[anchor=east] at (-6.5, formatting.west |- formatting.center) {$t_4$};
+    \node[anchor=east] at (-6.5, communication.west |- communication.center) {$t_5$};
+    \node[anchor=east] at (-6.5, modifications_2.west |- modifications_2.center) {$t_6$};
+    \node[anchor=east] at (-6.5, prepa_diff.west |- prepa_diff.center) {~~$t_{7/8}$};
+    \node[anchor=east] at (-6.5, release.west |- release.center) {$t_9$};
+
+
+    \end{tikzpicture}
+
+\end{figure}
+
+
+\end{document}
+
+
+
+
+
+

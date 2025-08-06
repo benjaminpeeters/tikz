@@ -1,0 +1,91 @@
+\documentclass[12pt, border=1pt,crop=true,preview=false]{standalone}
+
+\input{/home/ben/config/latex/preamble/preambleWord.tex}
+
+% if English
+% \usepackage[english]{babel}
+% if French (2 lines)
+\usepackage[english,french]{babel}
+\usepackage[T1]{fontenc} 
+
+\usetikzlibrary{patterns} % Load the patterns library
+\usetikzlibrary{patterns.meta}
+\usetikzlibrary{calc}
+
+\usetikzlibrary{positioning}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+% \pagestyle{empty}
+\begin{document}
+
+
+%============================== SETUP ==========================================
+
+% tikz variables
+% Variables must be declared in a tikzmath environment but can be used outside (almost anywhere)
+% Computations are also possible
+\tikzmath{\x1 = 4.5; \x2 =0.5; \x3 = 0.8; \l1 = 20em; \d=0.03; \height=(\x1^2 - (\x1/2)^2)^(0.5); }
+
+
+%============================== FIGURE =========================================
+
+\begin{tikzpicture}
+
+
+    \node[draw=black, fill=white, text width=28.5em] (profitability) {\hspace{2em}\textbf{overproduction in the center \& domestic pull factors} \\ (e.g., trade agreements, privatizations, new monetary policies)};
+    \node[draw=white, fill=white] (splitPoint) [below=3.2em of profitability] {};
+    \node[draw=black, fill=white, text width=14.5em] (prodInvest) [left=-1.3em of splitPoint] {\textbf{$\nearrow$ productive investments} \\ (resource-, efficiency-, market- and strategic asset-seeking investments)};
+    \draw[->,>=stealth] (profitability.200) -| (prodInvest);
+    \node[draw=black, fill=white, text width=12em] (productivityGain) [below=1.4em of prodInvest] {\textbf{$\nearrow$ industrial profitability}  \\ (e.g., new infrastructures and factories, rise in exports)};
+    \draw[->,>=stealth] (prodInvest) edge (productivityGain);
+    % 	\draw[->,>=stealth] (productivityGain.170) -| +(-.88,0) |- (prodInvest.190);
+    \draw[->,>=stealth] (productivityGain.170) -| (prodInvest.196);
+    \draw[->,>=stealth] (profitability.182) -| +(-0.8,0) |- (productivityGain.190);
+    % ----- financial investment -----
+    \node[draw=white, fill=white, text width=13.5em] (finInvest) [right=0.8em of splitPoint] {};
+    % 	\draw[->,>=stealth] (profitability) edge (finInvest);
+    % ----- new asset class
+    \node[draw=black, fill=white, text width=12.2em] (newAssets) [below=3em of finInvest] {\textbf{$\nearrow$ financial investments} \\ (e.g., bank loans, carry trade investments, diversification)};
+    \draw[->,>=stealth] (productivityGain.0) |- (newAssets);
+    % 	\draw[->,>=stealth] (profitability.340) -- +(3,-0.8) -- (newAssets);
+    \draw[->,>=stealth] (profitability.340) -| (newAssets.110);
+    % ------- prosperity illusion
+    \node[draw=black, fill=white, text width=23.9em] (prosperity) [below=12.4em of profitability] {\textbf{overoptimistic economic forecasts} (e.g., growth, inflows)};
+    \draw[->,>=stealth] (productivityGain.270) -| (prosperity.175);
+    \draw[->,>=stealth] (newAssets.270) -| (prosperity.5);
+    % ----- end prosperity
+    \node[draw=black, fill=white, text width=10.5em] (tradeBalance) [below=5.em of productivityGain] {~ \textbf{$\searrow$ trade balance} \\ (e.g., increase in imports, REER appreciation)};
+    % loss of competitiveness
+    \draw[->,>=stealth] (prosperity.270) -| (tradeBalance);
+    \node[draw=black, fill=white, text width=12em] (wealth) [right=3em of tradeBalance] {wealth effect and flagship assets (e.g., surge in real estate and stock prices, bubbles)};
+    \draw[->,>=stealth] (prosperity.270) -| (wealth);
+    \draw[->,>=stealth] (wealth.30) -| (prosperity.356);
+    % 	\draw[->,>=stealth] (wealth.360) -- +(0.4,0.) |- (newAssets.360);
+    \draw[->,>=stealth] (wealth.21) -| (newAssets.340);
+    % ----- financial stress
+    \node[draw=black, fill=white, text width=11.em] (fs) [below=8.3em of prosperity.193] {~~~~~~~ financial crisis \\ (e.g., large outflows, credit crunch, fall in liquidity)};
+    % 	\node[draw=black, fill=white, text width=14.5em] (fs) [below=8.3em of prosperity.193] {\textbf{\glspl{bopcrisis}} \textbf{large outflows \& financial crisis} \\ (e.g., credit crunch, banking crisis)};
+    \draw[->,>=stealth] (wealth.200) -- (fs);
+    \draw[->,>=stealth] (tradeBalance.270) -| (fs.150);
+    \draw[->,>=stealth] (wealth.180) -- (tradeBalance.0);
+    \draw[->,>=stealth] (profitability.177) -| +(-1.3,0) |- (fs.180);
+    \node[rotate=90] at (-7.1,-5.2) {end of the downward phase/ beginning of the next upward phase};
+    % ----- push factors
+    \node[draw=black, fill=white, text width=10.9em] (pushFactors) [right=4.em of fs] {~~~~~~~ push factors \\ (e.g., political instability, drop in commodity prices)};
+    \draw[->,>=stealth] (profitability) -| (pushFactors.30);
+    \draw[->,>=stealth] (prosperity) -| (pushFactors.30);
+    \draw[->,>=stealth] (pushFactors.174) |- (fs.5);
+    \draw[<-,>=stealth] (pushFactors.187) -| (fs.355);
+    % ----- timing
+    \draw[dashed, gray, thick] (-7.,-0.9) -- (9.2,-0.9);
+    \draw[dashed, gray, thick] (-7.,-6.8) -- (9.2,-6.8);
+    \draw[dashed, gray, thick] (-7.,-9.4) -- (9.2,-9.4);
+    \node at (8.5,0) {$\bs{t_1}$};
+    \node at (8.5,-3.7) {$\bs{t_2}$};
+    \node at (8.5,-8.1) {$\bs{t_3}$};
+    \node at (8.5,-10.7) {$\bs{t_4}$};
+\end{tikzpicture}
+
+\end{document}
+
+

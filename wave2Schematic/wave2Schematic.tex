@@ -1,0 +1,171 @@
+\documentclass[12pt, border=0pt,crop=true,preview=false]{standalone}
+
+% Packages needed
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[english,french]{babel}
+\usepackage[T1]{fontenc}
+
+% Define custom colors similar to productionPodcastSchematic
+\definecolor{myred}{RGB}{200,50,50}
+\definecolor{myblue}{RGB}{50,100,200}
+\definecolor{mygreen}{RGB}{50,150,80}
+
+\usetikzlibrary{patterns} % Load the patterns library
+\usetikzlibrary{patterns.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{math}
+\usetikzlibrary{positioning}
+
+% \pagestyle{empty}
+\begin{document}
+
+%============================== SETUP ==========================================
+
+%============================== FIGURE =========================================
+
+\centering
+    \begin{tikzpicture}[node distance=1.5cm, auto]
+
+        % Define a custom style for the nodes
+        \tikzset{my node/.style={rectangle, draw, align=center, inner sep=3pt}}
+
+        % Define a custom style for trigger nodes
+        \tikzset{
+            my trigger node/.style={
+                rectangle, 
+                align=center, 
+                draw=black, 
+                inner sep=3pt,
+                fill=red!30,
+                line width=1.5pt
+            }
+        }
+
+        % Define a custom style for phase nodes
+        \tikzset{
+            my phase node/.style={
+                rectangle, 
+                align=center, 
+                draw=blue!80, 
+                inner sep=4pt,
+                fill=blue!20,
+                line width=2pt,
+                text width=6cm
+            }
+        }
+
+        % Define a custom style for effect nodes
+        \tikzset{
+            my effect node/.style={
+                rectangle, 
+                align=center, 
+                draw=green!70, 
+                inner sep=3pt,
+                fill=green!15,
+                text width=4.5cm
+            }
+        }
+
+        % Define a custom style for geographic spread nodes
+        \tikzset{
+            my geo node/.style={
+                rectangle, 
+                align=center, 
+                draw=orange!80, 
+                inner sep=3pt,
+                fill=orange!20,
+                text width=3.5cm
+            }
+        }
+
+        % Phase 1 nodes
+        \node[my phase node] (phase1) {PHASE 1 (1979-1986) \\ Volcker Shock and Global Debt Crisis};
+        
+        \node[my trigger node, text width=4cm] (trigger1) [below=1.5em of phase1] {Triggers: \\ Volcker Tightening \\ (Fed rates $\rightarrow$ 20\%) \\ Second Oil Shock};
+        
+        \node[my effect node] (effects1) [below=1.5em of trigger1] {Effects: \\ Massive debt crisis \\ Banking sector stress \\ Commodity price collapse};
+        
+        \node[my geo node] (geo1a) [left=2em of effects1] {Latin America \\ (Mexico, Brazil, \\ Argentina, Chile)};
+        \node[my geo node] (geo1b) [below=1em of geo1a] {Asia \& Africa \\ (Turkey, Philippines, \\ Thailand, Morocco)};
+        \node[my geo node] (geo1c) [right=2em of effects1] {Eastern Europe \\ (Poland, Hungary, \\ Romania, Yugoslavia)};
+        \node[my geo node] (geo1d) [below=1em of geo1c] {Oil Exporters \\ (Mexico, Venezuela, \\ Indonesia, Nigeria)};
+
+        % Phase 2 nodes
+        \node[my phase node] (phase2) [below=4.5em of effects1] {PHASE 2 (1987-1992) \\ Baker to Brady: Counter Oil Shock \& Greenspan Tightening};
+        
+        \node[my trigger node, text width=4cm] (trigger2) [below=1.5em of phase2] {Triggers: \\ Counter Oil Shock \\ Greenspan Tightening \\ Financial Liberalization \\ Failures};
+        
+        \node[my effect node] (effects2) [below=1.5em of trigger2] {Effects: \\ Protracted debt workouts \\ Banking sector focus \\ Transition economies \\ crisis};
+        
+        \node[my geo node] (geo2a) [left=2em of effects2] {Continued \\ Latin America \\ (Argentina, Brazil, \\ Uruguay, Paraguay)};
+        \node[my geo node] (geo2b) [below=1em of geo2a] {Oil Exporters \\ (Algeria, Venezuela, \\ Iran, Nigeria)};
+        \node[my geo node] (geo2c) [right=2em of effects2] {Transition \\ Economies \\ (Bulgaria, \\ Eastern Europe)};
+
+        % Arrows connecting phases
+        \draw[->] (phase1) -- (trigger1);
+        \draw[->] (trigger1) -- (effects1);
+        \draw[->] (effects1) -- (geo1a);
+        \draw[->] (effects1) -- (geo1b);
+        \draw[->] (effects1) -- (geo1c);
+        \draw[->] (effects1) -- (geo1d);
+        
+        % Phase transition arrow
+        \draw[->, line width=2pt, dashed] (effects1) -- (phase2);
+        
+        \draw[->] (phase2) -- (trigger2);
+        \draw[->] (trigger2) -- (effects2);
+        \draw[->] (effects2) -- (geo2a);
+        \draw[->] (effects2) -- (geo2b);
+        \draw[->] (effects2) -- (geo2c);
+
+        % Contagion arrows within Phase 1
+        \draw[->, densely dotted] (geo1a) -- (geo1b);
+        \draw[->, densely dotted] (geo1b) -- (geo1c);
+        \draw[->, densely dotted] (geo1c) -- (geo1d);
+
+        % Continuity arrows from Phase 1 to Phase 2
+        \draw[->, densely dashed, color=gray] (geo1a) -- (geo2a);
+        \draw[->, densely dashed, color=gray] (geo1d) -- (geo2b);
+
+        % Timeline labels
+        \node[anchor=east] at (-8, 1) {\textbf{1979-1986}};
+        \node[anchor=east] at (-8, -8) {\textbf{1987-1992}};
+
+        % Legend - positioned to the right of the main diagram
+        \coordinate (legend_position) at (12,-2);
+        \begin{scope}[shift={(legend_position)}]
+            \node[my node, fill=white, draw=white, text width=6cm] at (1.5,1.5) (title_leg) {\textbf{WAVE 2 Legend:}};
+            
+            \node[my phase node, text width=2cm] at (0,0.8) (legend1) {};
+            \node[anchor=west] at (legend1.east) {Major Phases};
+            
+            \node[my trigger node, text width=2cm] at (0,0.2) (legend2) {};
+            \node[anchor=west] at (legend2.east) {Crisis Triggers};
+            
+            \node[my effect node, text width=2cm] at (0,-0.4) (legend3) {};
+            \node[anchor=west] at (legend3.east) {Crisis Effects};
+            
+            \node[my geo node, text width=2cm] at (0,-1.0) (legend4) {};
+            \node[anchor=west] at (legend4.east) {Geographic Spread};
+            
+            \node[my node, fill=white, draw=white, text width=6cm] at (1.2,-1.8) (title_arrows) {\textbf{Arrow Types:}};
+            
+            \draw[->] (0,-2.2) -- (0.8,-2.2);
+            \node[anchor=west] at (0.9,-2.2) {Direct causation};
+            
+            \draw[->, densely dotted] (0,-2.6) -- (0.8,-2.6);
+            \node[anchor=west] at (0.9,-2.6) {Contagion};
+            
+            \draw[->, line width=2pt, dashed] (0,-3.0) -- (0.8,-3.0);
+            \node[anchor=west] at (0.9,-3.0) {Phase transition};
+            
+            \draw[->, densely dashed, color=gray] (0,-3.4) -- (0.8,-3.4);
+            \node[anchor=west] at (0.9,-3.4) {Continuity};
+        \end{scope}
+
+    \end{tikzpicture}
+
+\end{document}

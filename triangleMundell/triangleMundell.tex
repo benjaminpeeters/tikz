@@ -1,0 +1,56 @@
+\documentclass[12pt, border=0pt,crop=true,preview=false]{standalone}
+
+
+\input{/home/ben/config/latex/preamble/preambleWord.tex}
+
+% if English
+% \usepackage[english]{babel}
+% if French (2 lines)
+\usepackage[english,french]{babel}
+\usepackage[T1]{fontenc} 
+
+
+
+% \pagestyle{empty}
+\begin{document}
+
+
+%============================== SETUP ==========================================
+
+% tikz variables
+% Variables must be declared in a tikzmath environment but can be used outside (almost anywhere)
+% Computations are also possible
+\tikzmath{\x1 = 4.5; \x2 =0.5; \x3 = 0.8; \l1 = 20em; \d=0.03; \height=(\x1^2 - (\x1/2)^2)^(0.5); }
+
+% figure counter
+\setcounter{figure}{2}
+
+
+%============================== FIGURE =========================================
+
+\begin{tikzpicture}[scale=1]
+	\draw[line width=2pt] (-\d,0) -- (\x1+\d,0) ;
+	\draw[line width=2pt] (0,0) -- (\x1/2+\d/2,\height+\d/2) ;
+	\draw[line width=2pt] (\x1/2-\d/2,\height+\d/2) -- (\x1,0) ;
+	\draw (\x1/2,\x1+0.1) node[above]{libre circulation} ;
+	\draw (\x1/2,\x1+0.1) node[below]{des capitaux} ;
+	\draw (-1.25,-0.05) node[below right]{Taux de} ;
+	\draw (-1.25,-0.55) node[below right]{change fixe} ;
+	\draw (3.4,-0.05) node[below right]{Autonomie de} ;
+	\draw (3.4,-0.55) node[below right]{politique monétaire} ;
+	\draw (\x1/4,2) node[above left]{A} ;
+	\draw (\x1*3/4,2) node[above right]{B} ;
+	\draw (\x1/2,0) node[below]{C} ;
+	% %--------------------
+	% \draw[red, line width=4pt, ->] (4.5,2.7) -- (11.5,2.7);
+	% \draw (8,3) node[above]{Financial Globalization} ;
+	% \draw (8,2.10) node{\scriptsize (decrease in capital controls, international} ;
+	% \draw (8,1.7) node{\scriptsize  banking, increase of FDIs and capital flows, etc.)} ;
+	%--------------------
+	\draw (\x1/2,-1.8) node{Trois positions possibles: A, B ou C} ;
+\end{tikzpicture}
+
+
+
+
+\end{document}

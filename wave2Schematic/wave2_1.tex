@@ -1,0 +1,108 @@
+\documentclass{../timeline}
+
+% Configuration parameters - EASY TO CHANGE!
+\def\startYear{1979}
+\def\endYear{1987} 
+\def\unitsPerYear{2}
+\def\timeStep{1}  % Step between year markers (1=every year, 2=every 2 years, 3=every 3 years, etc.)
+\def\nodeLineSpacing{1}  % Line spacing multiplier for multi-line node text (0.8 = tighter, 1.2 = looser)
+
+% Additional colors from wave2Schematic
+\definecolor{phasebg1}{RGB}{240,240,255}          % Light blue background
+\definecolor{phasebg2}{RGB}{255,240,240}          % Light red background
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.7, transform shape, font=\tiny]
+
+% Phase labels above timeline
+% \node[anchor=south, font=\large\bfseries] at ({(\x{1979}+\x{1985})/2},8.8) {
+%     PHASE 1: Volcker and Second Oil shocks
+% };
+% \node[anchor=south, font=\large\bfseries] at ({(\x{1985}+\x{1992})/2},8.8) {
+%     PHASE 2: Baker to Brady Plan
+% };
+
+% Draw the complete timeline
+\drawTimeline
+
+% EXTERNAL SHOCKS / TRIGGERS
+\node[trigger] (volcker) at ({\x{1980.6}},6) {
+    \textbf{Volcker} \\
+    \textbf{Shock} \\
+    Oct 1979 - Jul 1981 \\
+    Fed\,rates:\,4\,→\,20\%
+};
+
+\node[trigger] (oilshock2) at ({\x{1979.9}},7.5) {
+    \textbf{Second} \\
+    \textbf{Oil Shock} \\
+    1979 \\
+    Oil\,price\,(per\,barrel): \\
+    \$15 → \$35
+};
+
+\node[trigger] (counteroil) at ({\x{1985}},6.5) {
+    Dec 1985 \\
+    \textbf{Counter Oil} \\
+    \textbf{Shock} \\
+    Oil price:\\ \$27 to \$10/barrel
+};
+
+% FINANCIAL EVENTS
+\node[event] (mexicodefault) at ({\x{1982}},5) {
+    \textbf{Mexico Default} \\
+    "Mexican Weekend" \\
+    Aug 1982
+};
+
+\node[event] (debtcrisis) at ({\x{1984}},7) {
+    \textbf{Debt Crisis Spreads} \\
+    109 restructurings \\
+    1982-1989
+};
+
+% POLICY RESPONSES (using superstructure style)
+\node[superstructure] (bakerplan) at ({\x{1985}},8) {
+    \textbf{Baker Plan} \\
+    Growth-oriented strategy \\
+    1985
+};
+
+% CRISES AND GEOGRAPHIC IMPACT
+\node[crisis] (latam) at ({\x{1983}},2) {
+    \textbf{Latin} \\
+    \textbf{America} \\
+    Mexico, Brazil, \\
+    Argentina \\
+    Chile (1982-1985)
+};
+
+\node[crisis] (easteurope) at ({\x{1983}},0.5) {
+    \textbf{Eastern Europe} \\
+    Poland, Hungary \\
+    (1981-1985)
+};
+
+\node[crisis] (asiafrica) at ({\x{1983}},1.25) {
+    \textbf{Asia \& Africa} \\
+    Philippines, Turkey \\
+    Morocco (1982-1986)
+};
+
+% ARROWS - Core causal chain
+\draw[->, thick, color=col_trigger] (volcker.east) -- (mexicodefault.west);
+\draw[->, thick, color=col_trigger] (oilshock2.east) -- (debtcrisis.north);
+
+% Financial events cascade
+\draw[->, thick, color=col_event] (mexicodefault.east) to[bend left=15] (debtcrisis.west);
+
+% Key crises (most critical connections only)
+\draw[->, thick, color=col_trigger] (volcker.south) to[bend left=10] (latam.north);
+\draw[->, thick, color=col_trigger] (volcker.south) to[bend right=10] (easteurope.north);
+
+% Draw the legend
+\drawLegend
+
+\end{tikzpicture}
+\end{document}

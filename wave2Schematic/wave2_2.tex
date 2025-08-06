@@ -1,0 +1,170 @@
+\documentclass{../timeline}
+
+% Configuration parameters - EASY TO CHANGE!
+\def\startYear{1979}
+\def\endYear{1992} 
+\def\unitsPerYear{2}
+\def\timeStep{1}  % Step between year markers (1=every year, 2=every 2 years, 3=every 3 years, etc.)
+\def\nodeLineSpacing{1}  % Line spacing multiplier for multi-line node text (0.8 = tighter, 1.2 = looser)
+
+% Additional colors from wave2Schematic
+\definecolor{phasebg1}{RGB}{240,240,255}          % Light blue background
+\definecolor{phasebg2}{RGB}{255,240,240}          % Light red background
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.7, transform shape, font=\tiny]
+
+% Background shading for phases
+\fill[phasebg1, opacity=0.3] ({\x{1979}},3) rectangle ({\x{1985}},8.5);
+\fill[phasebg2, opacity=0.3] ({\x{1985}},3) rectangle ({\x{1992}},8.5);
+
+% Phase labels above timeline
+\node[anchor=south, font=\large\bfseries] at ({(\x{1979}+\x{1985})/2},8.8) {
+    PHASE 1: Volcker and Second Oil shocks
+};
+\node[anchor=south, font=\large\bfseries] at ({(\x{1985}+\x{1992})/2},8.8) {
+    PHASE 2: Baker to Brady Plan
+};
+
+% Draw the complete timeline
+\drawTimeline
+
+% EXTERNAL SHOCKS / TRIGGERS
+\node[trigger] (volcker) at ({\x{1980.6}},6) {
+    \textbf{Volcker Shock} \\
+    Fed rates: 4\% → 20\% \\
+    Oct 1979 - Jul 1981
+};
+
+\node[trigger] (oilshock2) at ({\x{1979.9}},7.5) {
+    1979 \\
+    \textbf{Second Oil Shock} \\
+    Oil: \$15 → \$35/barrel
+};
+
+\node[trigger] (counteroil) at ({\x{1985}},6.5) {
+    Dec 1985 \\
+    \textbf{Counter Oil} \\
+    \textbf{Shock} \\
+    Oil price:\\ \$27 to \$10/barrel
+};
+
+\node[trigger] (blackmonday) at ({\x{1987}},7.5) {
+    October 1987 \\
+    \textbf{Black Monday} \\
+    accentuate\\ flight-to-quality
+};
+
+\node[trigger] (ussrcollapse) at ({\x{1991}},6) {
+    1989-1991 \\
+    \textbf{USSR Collapse} \\
+    Eastern European\\ transition
+};
+
+% FINANCIAL EVENTS
+\node[event] (mexicodefault) at ({\x{1982}},5) {
+    \textbf{Mexico Default} \\
+    "Mexican Weekend" \\
+    Aug 1982
+};
+
+\node[event] (debtcrisis) at ({\x{1984}},7) {
+    \textbf{Debt Crisis Spreads} \\
+    109 restructurings \\
+    1982-1989
+};
+
+\node[event] (failedstabilization) at ({\x{1987}},7) {
+    1985-1989 \\
+    \textbf{Failed Stabilization Plans} \\
+    International + Domestic
+};
+
+% POLICY RESPONSES (using superstructure style)
+\node[superstructure] (bakerplan) at ({\x{1985}},8) {
+    \textbf{Baker Plan} \\
+    Growth-oriented strategy \\
+    1985
+};
+
+\node[superstructure] (bradyplan) at ({\x{1989}},8) {
+    1989 \\
+    \textbf{Brady Plan} \\
+    Debt reduction\\scheme
+};
+
+\node[superstructure] (structural) at ({\x{1990}},7.5) {
+    1989-1992 \\
+    \textbf{Structural} \\
+    \textbf{Adjustments} \\
+    Washington\\Consensus
+};
+
+% CRISES AND GEOGRAPHIC IMPACT
+\node[crisis] (hyperinflation) at ({\x{1990}},5) {
+    (1989-91) \\
+    \textbf{Hyperinflation} \\
+    Argentina: 5,000\% \\
+    Brazil: 1,000\%
+};
+
+\node[crisis] (latam) at ({\x{1983}},2) {
+    \textbf{Latin} \\
+    \textbf{America} \\
+    Mexico, Brazil, \\
+    Argentina \\
+    Chile (1982-1985)
+};
+
+\node[crisis] (easteurope) at ({\x{1983}},0.5) {
+    \textbf{Eastern Europe} \\
+    Poland, Hungary \\
+    (1981-1985)
+};
+
+\node[crisis] (asiafrica) at ({\x{1983}},1.25) {
+    \textbf{Asia \& Africa} \\
+    Philippines, Turkey \\
+    Morocco (1982-1986)
+};
+
+\node[crisis] (oilexporters) at ({\x{1987}},1.5) {
+    \textbf{Oil Exporters} \\
+    Algeria, Venezuela \\
+    Nigeria (1985-1989)
+};
+
+\node[crisis] (transition) at ({\x{1991}},1) {
+        (1989-94) \\
+    \textbf{Transition} \\
+    \textbf{Economies} \\
+    Bulgaria, Romania \\
+    Yugoslavia 
+};
+
+% ARROWS - Core causal chain
+\draw[->, thick, color=col_trigger] (volcker.east) -- (mexicodefault.west);
+\draw[->, thick, color=col_trigger] (oilshock2.east) -- (debtcrisis.north);
+
+% Financial events cascade
+\draw[->, thick, color=col_event] (mexicodefault.east) to[bend left=15] (debtcrisis.west);
+\draw[->, thick, color=col_event] (debtcrisis.east) to[bend left=10] (hyperinflation.west);
+
+% Policy responses
+\draw[->, thick, color=col_superstructure] (bakerplan.east) -- (failedstabilization.west);
+
+% Key crises (most critical connections only)
+\draw[->, thick, color=col_trigger] (volcker.south) to[bend left=10] (latam.north);
+\draw[->, thick, color=col_trigger] (volcker.south) to[bend right=10] (easteurope.north);
+\draw[->, thick, color=col_trigger] (counteroil.south) -- (oilexporters.north);
+
+% Political events
+\draw[->, thick, color=col_trigger] (ussrcollapse.south) -- (transition.north);
+\draw[->, thick, color=col_trigger] (ussrcollapse.west) to[bend left=25] (structural.east);
+
+% Draw the legend
+\drawLegend
+
+\end{tikzpicture}
+\end{document}

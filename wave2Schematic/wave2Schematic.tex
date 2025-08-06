@@ -36,62 +36,61 @@
     font=\tiny]
 
     % Define new chronological timeline colors
-    \definecolor{externalshock}{RGB}{180,0,0}        % Red for external shocks
-    \definecolor{financialcrisis}{RGB}{0,100,180}     % Blue for financial events
+    \definecolor{col_maintrigger}{RGB}{200,100,0}        % Purple for main triggers
+    \definecolor{col_financialevents}{RGB}{0,100,180}     % Blue for sp events
     \definecolor{policyresponse}{RGB}{0,150,50}       % Green for policy responses
-    \definecolor{politicalevent}{RGB}{120,0,120}      % Purple for political events
-    \definecolor{geographic}{RGB}{200,100,0}          % Orange for geographic impact
+    \definecolor{politicalevent}{RGB}{200,100,0}      % Orange for political events in SP
+    % \definecolor{geographic}{RGB}{200,100,0}          % Orange for sp crisis
+    \definecolor{col_crisis}{RGB}{180,0,0}          % Red for SP crises
     \definecolor{phasebg1}{RGB}{240,240,255}          % Light blue background
     \definecolor{phasebg2}{RGB}{255,240,240}          % Light red background
 
     % Define styles for chronological event types
     \tikzset{
-        external shock/.style={
-            rectangle, align=center, 
-            draw=externalshock, fill=externalshock!20,
+        main trigger/.style={
+            diamond, align=center, 
+            draw=col_maintrigger, fill=col_maintrigger!20,
             line width=1.5pt, text width=2.8cm,
+            inner sep=-6pt,
             minimum height=0.8cm, rounded corners=2pt
         },
-        financial event/.style={
+        sp event/.style={
             rectangle, align=center,
-            draw=financialcrisis, fill=financialcrisis!20,
+            draw=col_financialevents, fill=col_financialevents!20,
             line width=1.5pt, text width=2.8cm,
+            inner sep=-6pt,
             minimum height=0.8cm, rounded corners=2pt
         },
         policy response/.style={
             rectangle, align=center,
             draw=policyresponse, fill=policyresponse!20,
-            line width=1.5pt, text width=2.8cm,
-            minimum height=0.8cm, rounded corners=2pt
+            line width=1.2pt, text width=1.8cm,
+            inner sep=-6pt,
+            minimum height=0.2cm, rounded corners=2pt
         },
-        political event/.style={
-            rectangle, align=center,
-            draw=politicalevent, fill=politicalevent!20,
-            line width=1.5pt, text width=2.8cm,
-            minimum height=0.8cm, rounded corners=2pt
-        },
-        geographic impact/.style={
+        sp crisis/.style={
             ellipse, align=center,
-            draw=geographic, fill=geographic!15,
+            draw=col_crisis, fill=col_crisis!15,
             line width=1pt, text width=2.2cm,
+            inner sep=-2pt,
             minimum height=0.6cm
         }
     }
 
     % Background shading for phases (horizontal layout - extended with 2-unit intervals)
-    \fill[phasebg1, opacity=0.3] (-18,-6) rectangle (-4,6);
+    \fill[phasebg1, opacity=0.3] (-17,-6) rectangle (-4,6);
     \fill[phasebg2, opacity=0.3] (-4,-6) rectangle (11,6);
 
     % Phase labels above timeline (horizontal layout)
-    \node[anchor=south, font=\large\bfseries] at (-12,7) {
-        PHASE 1: Concerted Lending (1982-1985)
+    \node[anchor=south, font=\large\bfseries] at (-11,7) {
+        PHASE 1: Volcker and Second Oil shocks
     };
     \node[anchor=south, font=\large\bfseries] at (5,7) {
-        PHASE 2: Baker to Brady Plan (1985-1992)
+        PHASE 2: Baker to Brady Plan
     };
 
     % Horizontal timeline axis (extended with 2-unit intervals)
-    \draw[thick, color=gray] (-18,-4.5) -- (11,-4.5);
+    \draw[thick, color=gray] (-17,-4.5) -- (11,-4.5);
     
     % Year markers on horizontal timeline (equal intervals - 2 units per year)
     \foreach \y/\pos in {1979/-16, 1980/-14, 1981/-12, 1982/-10, 1983/-8, 1984/-6, 1985/-4, 1986/-2, 1987/0, 1988/2, 1989/4, 1990/6, 1991/8, 1992/10} {
@@ -100,96 +99,119 @@
     }
 
     % EXTERNAL SHOCKS (positioned chronologically with increased vertical spacing)
-    \node[external shock] (volcker) at (-16,5) {
+    \node[main trigger, text width=3.2cm] (volcker) at (-14.2,-2) {
         \textbf{Volcker Shock} \\
         Fed rates: 4\% → 20\% \\
         Oct 1979 - Jul 1981
     };
     
-    \node[external shock] (oilshock2) at (-16,2) {
+    \node[main trigger, text width=3.2cm] (oilshock2) at (-15.,2) {
+        1979 \\
         \textbf{Second Oil Shock} \\
         Oil: \$15 → \$35/barrel \\
-        1979
+        ~
     };
     
-    \node[external shock] (counteroil) at (-4,5) {
-        \textbf{Counter Oil Shock} \\
-        Oil: \$27 → \$10/barrel \\
-        Dec 1985
+    \node[main trigger] (counteroil) at (-3,0) {
+            Dec 1985 \\
+            \textbf{Counter Oil} \\
+            \textbf{Shock} \\
+            Oil price:\\ \$27 to \$10/barrel \\
+        ~ 
     };
 
+
+    \node[main trigger] (blackmonday) at (1,2) {
+        October 1987 \\
+        \textbf{Black Monday} \\
+        accentuate\\ flight-to-quality \\
+        ~ 
+    };
+
+
     % FINANCIAL EVENTS (positioned chronologically with increased vertical spacing)
-    \node[financial event] (mexicodefault) at (-10,-0.5) {
+    \node[sp event] (mexicodefault) at (-11.5,0.5) {
         \textbf{Mexico Default} \\
         "Mexican Weekend" \\
         Aug 1982
     };
     
-    \node[financial event] (debtcrisis) at (-8,3) {
+    \node[sp event] (debtcrisis) at (-8,3) {
         \textbf{Debt Crisis Spreads} \\
         109 restructurings \\
         1982-1989
     };
 
     
-    \node[financial event] (hyperinflation) at (4,-0.5) {
+    \node[sp crisis] (hyperinflation) at (5,.5) {
+        (1989-91) \\
         \textbf{Hyperinflation} \\
         Argentina: 5,000\% \\
-        Brazil: 1,000\% (1989-91)
+        Brazil: 1,000\% 
     };
 
     % POLICY RESPONSES (positioned chronologically with increased vertical spacing)
-    \node[policy response] (bakerplan) at (-4,2) {
+    \node[policy response] (bakerplan) at (-4,5) {
         \textbf{Baker Plan} \\
         Growth-oriented strategy \\
         1985
     };
     
-    \node[policy response] (bradyplan) at (4,3.5) {
+    \node[policy response] (bradyplan) at (4,5) {
+        1989 \\
         \textbf{Brady Plan} \\
-        Debt reduction scheme \\
-        1989
+        Debt reduction\\scheme \\
     };
     
-    \node[policy response] (structural) at (6,2) {
-        \textbf{Structural Adjustment} \\
-        Washington Consensus \\
-        1989-1992
+    \node[policy response] (structural) at (5,3) {
+        1989-1992 \\
+        \textbf{Structural} \\
+        \textbf{Adjustments} \\
+        Washington\\Consensus \\
+        ~
     };
 
     % POLITICAL EVENTS (positioned chronologically with improved vertical spacing)
-    \node[political event] (ussrcollapse) at (4,-2) {
+    \node[main trigger] (ussrcollapse) at (4,-2) {
+        1989-1991 \\
         \textbf{USSR Collapse} \\
-        Eastern European transition \\
-        1989-1991
+        Eastern European\\transition \\
+        ~
+    };
+
+    \node[sp event, text width=3.8cm] (failedstabilization) at (-2,3) {
+        ~ \\
+        1985-1989 \\
+        \textbf{Failed Stabilization Plans} \\
+        International + Domestic \\ ~
     };
 
     % GEOGRAPHIC IMPACT (positioned by timing with improved vertical spacing)
-    \node[geographic impact] (latam) at (-10,-3) {
+    \node[sp crisis] (latam) at (-9,1) {
         \textbf{Latin America} \\
         Mexico, Brazil, Argentina \\
         Chile (1982-1985)
     };
     
-    \node[geographic impact] (easteurope) at (-12,3.5) {
+    \node[sp crisis] (easteurope) at (-9,-3.5) {
         \textbf{Eastern Europe} \\
         Poland, Hungary \\
         (1981-1985)
     };
     
-    \node[geographic impact] (asiafrica) at (-9,-1.5) {
+    \node[sp crisis] (asiafrica) at (-9,-1.5) {
         \textbf{Asia \& Africa} \\
         Philippines, Turkey \\
         Morocco (1982-1986)
     };
     
-    \node[geographic impact] (oilexporters) at (-4,-1.5) {
+    \node[sp crisis] (oilexporters) at (-1,-2) {
         \textbf{Oil Exporters} \\
         Algeria, Venezuela \\
         Nigeria (1985-1989)
     };
     
-    \node[geographic impact] (transition) at (4,-3) {
+    \node[sp crisis] (transition) at (6.5,-3.3) {
         \textbf{Transition Economies} \\
         Bulgaria, Romania \\
         Yugoslavia (1989-1994)
@@ -197,60 +219,57 @@
 
     % SIMPLIFIED NETWORK-BASED INTERCONNECTIONS (reduced congestion)
     
-    % Core causal chain: External shocks to financial events (primary transmission)
-    \draw[->, thick, color=externalshock] (volcker) -- (mexicodefault);
-    \draw[->, thick, color=externalshock] (oilshock2) -- (debtcrisis);
-    \draw[->, thick, color=externalshock] (counteroil) -- (hyperinflation);
+    % Core causal chain: External shocks to sp events (primary transmission)
+    \draw[->, thick, color=col_maintrigger] (volcker) -- (mexicodefault);
+    \draw[->, thick, color=col_maintrigger] (oilshock2) -- (debtcrisis);
     
     % Financial events cascade
-    \draw[->, thick, color=financialcrisis] (mexicodefault) to[bend left=15] (debtcrisis);
-    \draw[->, thick, color=financialcrisis] (debtcrisis) to[bend left=10] (hyperinflation);
+    \draw[->, thick, color=col_financialevents] (mexicodefault) to[bend left=15] (debtcrisis);
+    \draw[->, thick, color=col_financialevents] (debtcrisis) to[bend left=10] (hyperinflation);
     
     % Policy responses (simplified to key relationships)
-    \draw[->, thick, color=financialcrisis] (debtcrisis) -- (bakerplan);
-    \draw[->, thick, color=financialcrisis] (debtcrisis) -- (bradyplan);
-    \draw[->, thick, color=financialcrisis] (hyperinflation) -- (structural);
+    \draw[->, thick, color=col_financialevents] (bakerplan) -- (failedstabilization);
+    % \draw[->, thick, color=col_financialevents] (debtcrisis) -- (bradyplan);
+    % \draw[->, thick, color=col_financialevents] (hyperinflation) -- (structural);
     
-    % Key geographic impacts (most critical connections only)
-    \draw[->, thick, color=externalshock] (volcker) to[bend left=10] (latam);
-    \draw[->, thick, color=externalshock] (volcker) to[bend right=10] (easteurope);
-    \draw[->, thick, color=externalshock] (counteroil) -- (oilexporters);
+    % Key sp crisiss (most critical connections only)
+    \draw[->, thick, color=col_maintrigger] (volcker) to[bend left=10] (latam);
+    \draw[->, thick, color=col_maintrigger] (volcker) to[bend right=10] (easteurope);
+    \draw[->, thick, color=col_maintrigger] (counteroil) -- (oilexporters);
     
     % Policy impact on regions (consolidated)
-    \draw[->, thick, color=policyresponse] (bradyplan) to[bend left=10] (latam);
-    \draw[->, thick, color=policyresponse] (structural) to[bend right=20] (asiafrica);
+    % \draw[->, thick, color=policyresponse] (bradyplan) to[bend left=10] (latam);
+    % \draw[->, thick, color=policyresponse] (structural) to[bend right=20] (asiafrica);
     
     % Political events (key connections)
     \draw[->, thick, color=politicalevent] (ussrcollapse) -- (transition);
     \draw[->, thick, color=politicalevent] (ussrcollapse) to[bend left=25] (structural);
     
     % Essential cross-regional contagion (reduced from 5 to 2 key flows)
-    \draw[->, dotted, thick, color=geographic] (latam) to[bend left=20] (asiafrica);
-    \draw[->, dotted, thick, color=geographic] (easteurope) to[bend left=30] (latam);
+    % \draw[->, dotted, thick, color=col_crisis] (latam) to[bend left=20] (asiafrica);
+    % \draw[->, dotted, thick, color=col_crisis] (easteurope) to[bend left=30] (latam);
     % Updated legend - closer to timeline and non-overlapping arrows
     \begin{scope}[shift={(0,-6.5)}, xshift=0cm, yshift=0cm]
         % Event type legend - properly spaced horizontally
-        \node[external shock, text width=1.4cm, minimum height=0.4cm] at (-16,0) {\scriptsize External\\Shocks};
+        \node[main trigger, text width=1.4cm, minimum height=0.4cm] at (-16,0) {\scriptsize Main\\External\\Triggers};
         
-        \node[financial event, text width=1.4cm, minimum height=0.4cm] at (-13.5,0) {\scriptsize Financial\\Events};
+        \node[sp event, text width=1.4cm, minimum height=0.4cm] at (-13.5,0) {\scriptsize Financial\\Events};
         
         \node[policy response, text width=1.4cm, minimum height=0.4cm] at (-11,0) {\scriptsize Policy\\Responses};
         
-        \node[political event, text width=1.4cm, minimum height=0.4cm] at (-8.5,0) {\scriptsize Political\\Events};
-        
-        \node[geographic impact, text width=1.6cm, minimum height=0.4cm] at (-6,0) {\scriptsize Geographic\\Impact};
+        \node[sp crisis, text width=1.6cm, minimum height=0.4cm] at (-8.5,0) {\scriptsize Geographic\\Impact};
         
         % Arrow types legend - separated into two rows to avoid overlap
-        \draw[->, thick, color=externalshock] (-2,0.3) -- (-1.2,0.3);
+        \draw[->, thick, color=col_maintrigger] (-2,0.3) -- (-1.2,0.3);
         \node[anchor=west, font=\scriptsize] at (-1.1,0.3) {External Causation};
         
-        \draw[->, thick, color=financialcrisis] (2,0.3) -- (3.2,0.3);
+        \draw[->, thick, color=col_financialevents] (2,0.3) -- (3.2,0.3);
         \node[anchor=west, font=\scriptsize] at (3.3,0.3) {Financial Transmission};
         
         \draw[->, thick, color=policyresponse] (-2,-.3) -- (-1.2,-.3);
         \node[anchor=west, font=\scriptsize] at (-1.1,-.3) {Policy Impact};
         
-        \draw[->, dotted, thick, color=geographic] (2,-.3) -- (3.2,-.3);
+        \draw[->, dotted, thick, color=col_crisis] (2,-.3) -- (3.2,-.3);
         \node[anchor=west, font=\scriptsize] at (3.3,-.3) {Geographic Contagion};
     \end{scope}
 

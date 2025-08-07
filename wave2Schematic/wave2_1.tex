@@ -1,105 +1,257 @@
 \documentclass{../timeline}
 
 % Configuration parameters - EASY TO CHANGE!
-\def\startYear{1979}
-\def\endYear{1987} 
-\def\unitsPerYear{2}
+\def\startYear{1978}
+\def\endYear{1986} 
+\def\unitsPerYear{4}  % Increased for more detail
 \def\timeStep{1}  % Step between year markers (1=every year, 2=every 2 years, 3=every 3 years, etc.)
-\def\nodeLineSpacing{1}  % Line spacing multiplier for multi-line node text (0.8 = tighter, 1.2 = looser)
 
 % Additional colors from wave2Schematic
 \definecolor{phasebg1}{RGB}{240,240,255}          % Light blue background
 \definecolor{phasebg2}{RGB}{255,240,240}          % Light red background
+\definecolor{center}{RGB}{200,200,250}            % Center economies
+\definecolor{semiperiph}{RGB}{200,100,100}        % Semi-periphery
+\definecolor{transmission}{RGB}{150,75,150}       % Transmission mechanisms
 
 \begin{document}
 
-\begin{tikzpicture}[scale=0.7, transform shape, font=\tiny]
-
-% Phase labels above timeline
-% \node[anchor=south, font=\large\bfseries] at ({(\x{1979}+\x{1985})/2},8.8) {
-%     PHASE 1: Volcker and Second Oil shocks
-% };
-% \node[anchor=south, font=\large\bfseries] at ({(\x{1985}+\x{1992})/2},8.8) {
-%     PHASE 2: Baker to Brady Plan
-% };
+\begin{tikzpicture}[scale=0.65, transform shape, font=\tiny]
 
 % Draw the complete timeline
 \drawTimeline
 
-% EXTERNAL SHOCKS / TRIGGERS
-\node[trigger] (volcker) at ({\x{1980.6}},6) {
-    \textbf{Volcker} \\
-    \textbf{Shock} \\
-    Oct 1979 - Jul 1981 \\
-    Fed\,rates:\,4\,→\,20\%
+% ========== 1970s BACKGROUND CONDITIONS ==========
+\node[event] (euromarkets) at ({\x{1978.1}},13.5) {
+    \textbf{Euromarkets} \\
+    \textbf{Expansion} \\
+    (1960s-1970s) \\
+    London-centered \\
+    Offshore USD market \\
+    Unregulated banking
 };
 
-\node[trigger] (oilshock2) at ({\x{1979.9}},7.5) {
+\node[event] (petrodollar) at ({\x{1978.3}},11) {
+    \textbf{Petrodollar} \\
+    \textbf{Recycling} \\
+    \textbf{(1973-1980)} \\
+    Western banks recycle \\
+    oil revenues to SP
+};
+
+\node[event, draw=center] (lowrates) at ({\x{1978.8}},8.5) {
+    \textbf{Negative Real} \\
+    \textbf{Interest Rates} \\
+    Abundant liquidity \\
+    Easy credit conditions
+};
+
+\node[event] (pushborrowing) at ({\x{1979}},6.5) {
+    \textbf{Push Towards} \\
+    \textbf{SP Borrowing} \\
+    Banks seek borrowers \\
+    loans to SP
+};
+
+\node[event] (commodboom) at ({\x{1978.2}},4.5) {
+    \textbf{Commodity Price} \\
+    \textbf{Boom (1973-79)} \\
+    Oil \& commodity \\
+    prosperity hope \\
+    Catch-up optimism
+};
+
+% ========== CENTER ECONOMY TRIGGERS ==========
+\node[trigger, inner sep=0pt] (iranrevol) at ({\x{1979.2}},14.0) {
+    \textbf{Iranian} \\
+    \textbf{Revolution} \\
+    Jan 1979 \\
+    World oil \\
+    output ↓7\% \\
+};
+
+\node[trigger] (oilshock2) at ({\x{1979.8}},12.0) {
     \textbf{Second} \\
     \textbf{Oil Shock} \\
-    1979 \\
-    Oil\,price\,(per\,barrel): \\
-    \$15 → \$35
+    1979-1981 \\
+    \$13 → \$34/barrel
 };
 
-\node[trigger] (counteroil) at ({\x{1985}},6.5) {
-    Dec 1985 \\
-    \textbf{Counter Oil} \\
-    \textbf{Shock} \\
-    Oil price:\\ \$27 to \$10/barrel
+\node[trigger] (volcker) at ({\x{1980.1}},2.5) {
+    \textbf{Volcker Shock} \\
+    Oct 1979 - Jun 1981 \\
+    Fed rates: 5\% → 19\% \\
+    Anti-inflation policy
 };
 
-% FINANCIAL EVENTS
-\node[event] (mexicodefault) at ({\x{1982}},5) {
-    \textbf{Mexico Default} \\
-    "Mexican Weekend" \\
-    Aug 1982
+\node[event] (usinflation) at ({\x{1979}},2) {
+    \textbf{High} \\
+    \textbf{US Inflation} \\
+    Peak 13.5\% (1980) \\
+    Labor movements
 };
 
-\node[event] (debtcrisis) at ({\x{1984}},7) {
-    \textbf{Debt Crisis Spreads} \\
-    109 restructurings \\
-    1982-1989
+% ========== TRANSMISSION MECHANISMS ==========
+\node[event] (dollardeb) at ({\x{1980.2}},7.5) {
+    \textbf{Dollar Debt} \\
+    \textbf{Burden} \\
+    LA debt 4x increase \\
+    \$75B→\$315B (1975-83)
 };
 
-% POLICY RESPONSES (using superstructure style)
-\node[superstructure] (bakerplan) at ({\x{1985}},8) {
-    \textbf{Baker Plan} \\
-    Growth-oriented strategy \\
-    1985
+\node[event] (commodcol) at ({\x{1985.5}},6.8) {
+    \textbf{Counter Oil Shock} \\
+    \textbf{\& Commodity Collapse} \\
+    Oil: \$27→\$10 (Dec 1985) \\
+    Copper, coffee ↓40\%
 };
 
-% CRISES AND GEOGRAPHIC IMPACT
-\node[crisis] (latam) at ({\x{1983}},2) {
-    \textbf{Latin} \\
-    \textbf{America} \\
-    Mexico, Brazil, \\
-    Argentina \\
-    Chile (1982-1985)
+\node[event] (contagion) at ({\x{1983}},9.0) {
+    \textbf{Contagion Effect} \\
+    109 debt restructurings \\
+    1982-1989 \\
+    Bank-sovereign nexus
 };
 
-\node[crisis] (easteurope) at ({\x{1983}},0.5) {
+% ========== KEY FINANCIAL EVENTS ==========
+\node[event] (mexicowknd) at ({\x{1982.6}},6.0) {
+    \textbf{Mexican Weekend} \\
+    Aug 12-15, 1982 \\
+    Silva-Herzog declares \\
+    payment moratorium
+};
+
+\node[event] (yugoIMF) at ({\x{1981.8}},7.5) {
+    \textbf{YUG IMF Loan} \\
+    Largest ever (1981) \\
+    \$5.4 billion \\
+    Socialist borrowing
+};
+
+% ========== LATIN AMERICA DEBT CRISES (Volcker Impact + Commodity Dependence) ==========
+\node[crisis, draw=semiperiph, inner sep=-14pt] (latamdebt) at ({\x{1982.5}},2.5) {
+    \textbf{Latin America} \\
+    \textbf{Debt Crisis} \\
+    MEX, BRA, ARG, CHL \\
+    Banking→Currency→Debt \\
+    ISI model collapse
+};
+
+% ========== EASTERN EUROPE SOCIALIST DEBT CRISES (COMECON + Volcker) ==========
+\node[crisis, draw=semiperiph, inner sep=-12pt] (easteuropedebt) at ({\x{1981}},0.3) {
     \textbf{Eastern Europe} \\
-    Poland, Hungary \\
-    (1981-1985)
+    \textbf{Debt Crisis} \\
+    POL, HUN, ROM, YUG \\
+    COMECON constraints \\
+    1970s borrowing trap
 };
 
-\node[crisis] (asiafrica) at ({\x{1983}},1.25) {
-    \textbf{Asia \& Africa} \\
-    Philippines, Turkey \\
-    Morocco (1982-1986)
+% ========== OIL IMPORTERS + COMMODITY EXPORTERS CRISES (Double Hit) ==========
+\node[crisis, draw=semiperiph, inner sep=-12pt] (oilimporters) at ({\x{1983}},1.8) {
+    \textbf{Oil Importers +} \\
+    \textbf{Commodity Exporters} \\
+    TUR, PHL, MAR \\
+    Double external shock \\
+    Political instability
 };
 
-% ARROWS - Core causal chain
-\draw[->, thick, color=col_trigger] (volcker.east) -- (mexicodefault.west);
-\draw[->, thick, color=col_trigger] (oilshock2.east) -- (debtcrisis.north);
+% ========== POLICY RESPONSES ==========
+\node[superstructure] (imfausterity) at ({\x{1982.2}},11.0) {
+    \textbf{IMF Austerity} \\
+    \textbf{Programs} \\
+    Fiscal consolidation \\
+    Trade liberalization
+};
 
-% Financial events cascade
-\draw[->, thick, color=col_event] (mexicodefault.east) to[bend left=15] (debtcrisis.west);
+\node[superstructure] (washconsensus) at ({\x{1983.8}},10.0) {
+    \textbf{Washington} \\
+    \textbf{Consensus (1989)} \\
+    Market-oriented \\
+    Structural reforms
+};
 
-% Key crises (most critical connections only)
-\draw[->, thick, color=col_trigger] (volcker.south) to[bend left=10] (latam.north);
-\draw[->, thick, color=col_trigger] (volcker.south) to[bend right=10] (easteurope.north);
+\node[superstructure] (bakerplan) at ({\x{1985.2}},12.5) {
+    \textbf{Baker Plan (Oct 1985)} \\
+    Growth vs austerity \\
+    \$29B new lending \\
+    15 debtor countries \\
+    Structural reforms
+};
+
+% ========== SPECIFIC POLITICAL TRANSITIONS ==========
+\node[superstructure, draw=semiperiph] (argdemocracy) at ({\x{1983.8}},5.5) {
+    \textbf{ARG Democratic} \\
+    \textbf{Transition (1983)} \\
+    Military junta collapse \\
+    Falklands War defeat \\
+    Raúl Alfonsín elected
+};
+
+\node[superstructure, draw=semiperiph] (braziltransition) at ({\x{1984.5}},4.5) {
+    \textbf{BRA Democratic} \\
+    \textbf{Opening (1984)} \\
+    Military regime end \\
+    "Diretas Já" campaign \\
+    Economic crisis driver
+};
+
+\node[superstructure, draw=semiperiph] (polsolidarity) at ({\x{1981.5}},5.0) {
+    \textbf{POL Solidarity} \\
+    \textbf{Movement (1980)} \\
+    Trade union uprising \\
+    Martial law Dec 1981 \\
+    Economic pressures
+};
+
+
+% ========== ARROWS - CAUSAL RELATIONSHIPS ==========
+% 1970s causal chain: euromarkets → petrodollar → negative rates → push towards borrowing to semi-periphery
+\draw[->, thick, color=center] (euromarkets.280) -- (petrodollar.120);
+\draw[->, thick, color=center] (petrodollar.east) -- (lowrates.west);
+\draw[->, thick, color=center] (lowrates.south) -- (pushborrowing.north);
+\draw[->, thick] (pushborrowing.east) to[bend left=10] (dollardeb.south);
+\draw[->, thick, color=center] (commodboom.east) to[bend right=20] (dollardeb.south);
+\draw[->, thick, color=center] (commodboom.north) to[bend left=20] (lowrates.240);
+\node[font=\scriptsize, align=center] at ({\x{1978.2}},7) {~~~Inflationary\\pressure~~};
+
+% Primary triggers
+\draw[->, thick] (iranrevol.east) -- (oilshock2.140);
+\draw[->, thick] (oilshock2.240) to[bend right=30] (volcker.120);
+\node[font=\scriptsize, align=center] at ({\x{1979.65}},3.9) {Inflationary\\~~pressure};
+\draw[->, thick] (usinflation.east) -- (volcker.west);
+
+% Transmission mechanisms
+\draw[->, thick] (volcker.north) -- (dollardeb.south);
+\draw[->, thick] (oilshock2.320) to[bend left=15] (dollardeb.north);
+\draw[->, thick] (dollardeb.east) -- (mexicowknd.north);
+\draw[->, thick] (mexicowknd.east) -- (contagion.west);
+
+% Regional contagion to grouped crises
+\draw[->, thick] (mexicowknd.south) -- (latamdebt.north);
+\draw[->, thick] (contagion.south) to[bend left=5] (latamdebt.north);
+
+% Background conditions contributing to ISI model adoption and collapse
+\draw[->, thick, color=center] (commodboom.south) to[bend right=30] (latamdebt.west);
+
+% Eastern Europ
+\draw[->, thick] (dollardeb.south) to[bend left=20] (yugoIMF.north);
+\draw[->, thick] (yugoIMF.south) to[bend right=10] (easteuropedebt.north);
+
+% Oil importers
+\draw[->, thick] (dollardeb.south) to[bend left=30] (oilimporters.north);
+\draw[->, thick] (contagion.south) to[bend right=20] (oilimporters.north);
+
+% Policy responses
+\draw[->, thick, color=col_superstructure] (contagion.north) -- (imfausterity.south);
+\draw[->, thick, color=col_superstructure] (imfausterity.east) -- (washconsensus.west);
+\draw[->, thick, color=col_superstructure] (commodcol.south) -- (bakerplan.north);
+
+% Political transitions driven by economic crisis
+\draw[->, thick] (latamdebt.north) to[bend left=10] (argdemocracy.south);
+\draw[->, thick] (easteuropedebt.north) to[bend right=10] (polsolidarity.south);
+\draw[->, thick] (latamdebt.north) to[bend right=10] (braziltransition.south);
+
+% Counter oil shock impacts
+\draw[->, thick, color=transmission] (commodcol.south) to[bend left=20] (latamdebt.east);
 
 % Draw the legend
 \drawLegend

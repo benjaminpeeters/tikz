@@ -19,7 +19,7 @@
 \def\endYear{1992} 
 \def\unitsPerYear{2}
 \def\timeStep{3}  % Step between year markers (1=every year, 2=every 2 years, 3=every 3 years, etc.)
-\def\nodeLineSpacing{0.8}  % Line spacing multiplier for multi-line node text (0.8 = tighter, 1.2 = looser)
+\def\nodeLineSpacing{1}  % Line spacing multiplier for multi-line node text (0.8 = tighter, 1.2 = looser)
 
 % Define coordinate transformation command
 \newcommand{\yearToCoord}[1]{%

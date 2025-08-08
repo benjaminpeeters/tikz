@@ -20,6 +20,7 @@
 \def\unitsPerYear{2}
 \def\timeStep{3}  % Step between year markers (1=every year, 2=every 2 years, 3=every 3 years, etc.)
 \def\nodeLineSpacing{1}  % Line spacing multiplier for multi-line node text (0.8 = tighter, 1.2 = looser)
+\def\legendSpacing{3}  % Spacing between legend items (easy to change)
 
 % Define coordinate transformation command
 \newcommand{\yearToCoord}[1]{%
@@ -36,6 +37,7 @@
 \definecolor{col_event}{RGB}{0,100,180}
 \definecolor{col_superstructure}{RGB}{0,150,50}
 \definecolor{col_crisis}{RGB}{180,0,0}
+\definecolor{col_political}{RGB}{120,50,200}
 
 % Define TikZ styles for event types - fully adaptive to content with configurable line spacing
 \tikzset{
@@ -49,7 +51,7 @@
         rounded corners=3pt,
         execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
     },
-    event/.style={
+    economic/.style={
         ellipse, align=center,
         draw=col_event!40, fill=col_event!20,
         line width=0.8pt,
@@ -60,6 +62,14 @@
     superstructure/.style={
         rectangle, align=center,
         draw=col_superstructure!40, fill=col_superstructure!20,
+        line width=0.8pt,
+        inner sep=2pt,
+        rounded corners=3pt,
+        execute at begin node={\linespread{\nodeLineSpacing}\selectfont}
+    },
+    political/.style={
+        rectangle, align=center,
+        draw=col_political!40, fill=col_political!20,
         line width=0.8pt,
         inner sep=2pt,
         rounded corners=3pt,
@@ -102,24 +112,26 @@
 % Command to draw legend - positioned below timeline
 \newcommand{\drawLegend}{%
     \begin{scope}[shift={(0,-2)}]
-        % Event type legend - properly spaced horizontally
-        \node[trigger, minimum height=0.4cm, inner sep=-3] at (-6,0) {\scriptsize Triggers};
+        % Event type legend - equidistant spacing
+        \node[trigger, minimum height=0.4cm, inner sep=-3] at ({-2*\legendSpacing},0) {\scriptsize Triggers};
         
-        \node[event, minimum height=0.4cm] at (-3,0) {\scriptsize Events};
+        \node[economic, minimum height=0.4cm] at ({-1*\legendSpacing},0) {\scriptsize Economic\\ \scriptsize Condition};
         
-        \node[superstructure, minimum height=0.4cm] at (0,0) {\scriptsize Policy\\ \scriptsize Responses};
+        \node[superstructure, minimum height=0.4cm] at (0,0) {\scriptsize Policy \& Mindset\\ \scriptsize Changes};
         
-        \node[crisis, minimum height=0.4cm, inner sep=-2] at (3,0) {\scriptsize Crises};
+        \node[political, minimum height=0.4cm] at ({\legendSpacing},0) {\scriptsize Political\\ \scriptsize Events};
+        
+        \node[crisis, minimum height=0.4cm, inner sep=-2] at ({2*\legendSpacing},0) {\scriptsize Crises};
         
         % Arrow types legend
-        \draw[->, thick, color=col_trigger] (-7,-.9) -- (-5.8,-.9);
-        \node[anchor=west, font=\scriptsize] at (-5.7,-.9) {External Causation};
+        \draw[->, thick, color=col_trigger] ({-2.5*\legendSpacing},-.9) -- ({-1.8*\legendSpacing},-.9);
+        \node[anchor=west, font=\scriptsize] at ({-1.7*\legendSpacing},-.9) {External Causation};
         
-        \draw[->, thick, color=col_event] (-2.5,-.9) -- (-1.3,-.9);
-        \node[anchor=west, font=\scriptsize] at (-1.2,-.9) {Financial Transmission};
+        \draw[->, thick, color=col_event] ({-0.5*\legendSpacing},-.9) -- ({0.2*\legendSpacing},-.9);
+        \node[anchor=west, font=\scriptsize] at ({0.3*\legendSpacing},-.9) {Financial Transmission};
         
-        \draw[->, thick, color=col_superstructure] (2.5,-.9) -- (3.7,-.9);
-        \node[anchor=west, font=\scriptsize] at (3.8,-.9) {Policy Impact};
+        \draw[->, thick, color=col_superstructure] ({1.5*\legendSpacing},-.9) -- ({2.2*\legendSpacing},-.9);
+        \node[anchor=west, font=\scriptsize] at ({2.3*\legendSpacing},-.9) {Policy Impact};
     \end{scope}
 }
 

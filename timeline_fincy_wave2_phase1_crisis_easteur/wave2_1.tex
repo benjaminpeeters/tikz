@@ -1,7 +1,7 @@
 \documentclass{../timeline}
 
 % Configuration parameters - EASY TO CHANGE!
-\def\startYear{1978}
+\def\startYear{1977}
 \def\endYear{1986} 
 \def\unitsPerYear{4}  % Increased for more detail
 \def\timeStep{1}  % Step between year markers (1=every year, 2=every 2 years, 3=every 3 years, etc.)
@@ -21,7 +21,7 @@
 \drawTimeline
 
 % ========== 1970s BACKGROUND CONDITIONS ==========
-\node[event] (euromarkets) at ({\x{1978.1}},13.5) {
+\node[event] (euromarkets) at ({\x{1977.3}},13.5) {
     \textbf{Euromarkets} \\
     \textbf{Expansion} \\
     (1960s-1970s) \\
@@ -30,7 +30,7 @@
     Unregulated banking
 };
 
-\node[event] (petrodollar) at ({\x{1978.3}},11) {
+\node[event] (petrodollar) at ({\x{1977.5}},11.1) {
     \textbf{Petrodollar} \\
     \textbf{Recycling} \\
     \textbf{(1973-1980)} \\
@@ -38,30 +38,58 @@
     oil revenues to SP
 };
 
-\node[event, draw=center] (lowrates) at ({\x{1978.8}},8.5) {
-    \textbf{Negative Real} \\
-    \textbf{Interest Rates} \\
-    Abundant liquidity \\
-    Easy credit conditions
-};
 
-\node[event] (pushborrowing) at ({\x{1979}},6.5) {
-    \textbf{Push Towards} \\
+\node[event] (pushborrowing) at ({\x{1978.9}},7.8) {
     \textbf{SP Borrowing} \\
-    Banks seek borrowers \\
+    Banks seek\\borrowers abroad\\
     loans to SP
 };
 
-\node[event] (commodboom) at ({\x{1978.2}},4.5) {
-    \textbf{Commodity Price} \\
-    \textbf{Boom (1973-79)} \\
+\node[trigger, inner sep=-5pt] (commodboom) at ({\x{1977.2}},8.) {
+    \textbf{Commodity} \\
+    \textbf{Price Boom} \\
+    (1973-79) \\
     Oil \& commodity \\
-    prosperity hope \\
-    Catch-up optimism
+    prices surge
+};
+
+\node[event, draw=center] (lowrates) at ({\x{1978.4}},10.1) {
+    \textbf{Negative Real} \\
+    \textbf{Interest Rates} \\
+    Abundant liquidity \\
+    Easy credit \\
+    conditions
+};
+
+\node[superstructure] (prosperityhope) at ({\x{1978.6}},5.5) {
+    \textbf{Prosperity Hope} \\
+    \textbf{\& Catch-up} \\
+    \textbf{Optimism in SP} \\
+    Development potential \\
+    ISI industrialization
+};
+
+
+% ========== CENTER ECONOMY UNDERLYING CONDITIONS ==========
+\node[event, draw=center] (lowprofitability) at ({\x{1977.4}},4.2) {
+    \textbf{Low Growth and} \\
+    \textbf{Profitability} \\
+    \textbf{in the Center} \\
+    US profit rates ↓ \\
+    20.4\% → 15\% (1966-75) \\
+    Center competition
+};
+
+\node[event, draw=center] (labormovements) at ({\x{1977.4}},1.6) {
+    \textbf{Labor Movements} \\
+    \textbf{\& Social Unrest} \\
+    Vietnam War protests \\
+    5,716 strikes (1970) \\
+    Wage-price spiral
 };
 
 % ========== CENTER ECONOMY TRIGGERS ==========
-\node[trigger, inner sep=0pt] (iranrevol) at ({\x{1979.2}},14.0) {
+\node[trigger, inner sep=0pt] (iranrevol) at ({\x{1979.2}},13.0) {
     \textbf{Iranian} \\
     \textbf{Revolution} \\
     Jan 1979 \\
@@ -137,7 +165,7 @@
 };
 
 % ========== EASTERN EUROPE SOCIALIST DEBT CRISES (COMECON + Volcker) ==========
-\node[crisis, draw=semiperiph, inner sep=-12pt] (easteuropedebt) at ({\x{1981}},0.3) {
+\node[crisis, draw=semiperiph, inner sep=-12pt] (easteuropedebt) at ({\x{1981}},14.3) {
     \textbf{Eastern Europe} \\
     \textbf{Debt Crisis} \\
     POL, HUN, ROM, YUG \\
@@ -202,16 +230,51 @@
     Economic pressures
 };
 
+% ========== EASTERN EUROPEAN SPECIFIC CONDITIONS ==========
+% \node[superstructure] (westbanktrust) at ({\x{1978.3}},13) {
+%     \textbf{Western Banks'} \\
+%     \textbf{Confidence in} \\
+%     \textbf{creditworthiness} \\
+%     \textbf{of Eastern Europe} \\
+%     Unblemished record \\
+%     Implicit Soviet backing \\
+%     Détente optimism
+% };
+%
+% \node[event, draw=semiperiph] (eemotivations) at ({\x{1979.8}},14.2) {
+%     \textbf{Eastern European} \\
+%     \textbf{ISI Motivations} \\
+%     Escape commodity role \\
+%     COMECON constraints \\
+%     Fast industrialization
+% };
+
 
 % ========== ARROWS - CAUSAL RELATIONSHIPS ==========
 % 1970s causal chain: euromarkets → petrodollar → negative rates → push towards borrowing to semi-periphery
 \draw[->, thick, color=center] (euromarkets.280) -- (petrodollar.120);
-\draw[->, thick, color=center] (petrodollar.east) -- (lowrates.west);
-\draw[->, thick, color=center] (lowrates.south) -- (pushborrowing.north);
+\draw[->, thick, color=center] (petrodollar.348) -- (lowrates.175);
+\draw[->, thick, color=center] (lowrates.290) -- (pushborrowing.130);
+\draw[<->, thick, color=center] (prosperityhope.80) -- (pushborrowing.220);
 \draw[->, thick] (pushborrowing.east) to[bend left=10] (dollardeb.south);
-\draw[->, thick, color=center] (commodboom.east) to[bend right=20] (dollardeb.south);
-\draw[->, thick, color=center] (commodboom.north) to[bend left=20] (lowrates.240);
-\node[font=\scriptsize, align=center] at ({\x{1978.2}},7) {~~~Inflationary\\pressure~~};
+
+% Commodity boom effects
+\draw[->, thick, color=center] (commodboom.330) -- (prosperityhope.north west);
+\draw[->, thick, color=center] (commodboom.north east) to[bend left=0] (lowrates.190);
+\draw[->, thick, color=center] (commodboom.north) to[bend left=15] (petrodollar.240);
+\node[font=\scriptsize, align=center] at ({\x{1977.7}},9.6) {~~~~Inflationary\\pressure~~};
+\draw[->, thick, color=center] (commodboom.300) to[bend left=0] (usinflation.120);
+\draw[->, thick, color=center] (commodboom.south) to[bend left=0] (lowprofitability.north);
+
+% Low profitability contributing to SP optimism (relative advantage perception)
+\draw[->, thick, color=center] (lowprofitability.east) to[bend right=15] (prosperityhope.south west);
+\draw[->, thick, color=center] (lowprofitability.north west) to[bend left=40] (petrodollar.south west);
+
+% Center economy underlying conditions causing inflation
+\draw[->, thick, color=center] (lowprofitability.south east) to[bend right=10] (usinflation.170);
+\draw[->, thick, color=center] (lowprofitability.60) to[bend left=10] (lowrates.south west);
+\draw[->, thick, color=center] (labormovements.east) -- (usinflation.185);
+\draw[<->, dashed, color=center] (labormovements.north) -- (lowprofitability.south);
 
 % Primary triggers
 \draw[->, thick] (iranrevol.east) -- (oilshock2.140);
@@ -230,9 +293,16 @@
 \draw[->, thick] (contagion.south) to[bend left=5] (latamdebt.north);
 
 % Background conditions contributing to ISI model adoption and collapse
-\draw[->, thick, color=center] (commodboom.south) to[bend right=30] (latamdebt.west);
+\draw[->, thick, color=center] (prosperityhope.south) to[bend right=30] (latamdebt.west);
+\draw[->, thick, color=center] (prosperityhope.south) to[bend left=30] (easteuropedebt.north west);
 
-% Eastern Europ
+% Eastern Europe specific factors
+% \draw[->, thick, color=center] (westbanktrust.east) -- (eemotivations.west);
+% \draw[->, thick, color=center] (westbanktrust.south east) to[bend left=20] (pushborrowing.south);
+% \draw[->, thick, color=semiperiph] (eemotivations.south) to[bend left=15] (easteuropedebt.north);
+
+% Eastern Europe general transmission
+\draw[->, thick, color=center] (pushborrowing.south) to[bend right=40] (easteuropedebt.west);
 \draw[->, thick] (dollardeb.south) to[bend left=20] (yugoIMF.north);
 \draw[->, thick] (yugoIMF.south) to[bend right=10] (easteuropedebt.north);
 

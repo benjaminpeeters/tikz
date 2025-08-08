@@ -1,0 +1,202 @@
+\documentclass{../timeline}
+
+% Configuration parameters - EASY TO CHANGE!
+\def\startYear{1974}
+\def\endYear{1983} 
+\def\unitsPerYear{4}  % Increased for more detail
+\def\timeStep{1}  % Step between year markers (1=every year, 2=every 2 years, 3=every 3 years, etc.)
+
+% Additional colors from wave2Schematic
+\definecolor{phasebg1}{RGB}{240,240,255}          % Light blue background
+\definecolor{phasebg2}{RGB}{255,240,240}          % Light red background
+\definecolor{center}{RGB}{200,200,250}            % Center economies
+\definecolor{semiperiph}{RGB}{200,100,100}        % Semi-periphery
+\definecolor{transmission}{RGB}{150,75,150}       % Transmission mechanisms
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.65, transform shape, font=\tiny]
+
+% Draw the complete timeline
+\drawTimeline
+
+% ========== 1970s BACKGROUND CONDITIONS ==========
+\node[economic] (euromarkets) at ({\x{1976}},13.5) {
+    \textbf{Euromarkets Expansion} \\
+    (1960s-1970s) \\
+    London-centered \\
+    Offshore USD market \\
+    Unregulated banking
+};
+
+\node[economic] (petrodollar) at ({\x{1976.9}},11.1) {
+    \textbf{Petrodollar Recycling} \\
+    (1973-1980) \\
+    Western banks recycle \\
+    oil revenues to SP
+};
+
+
+\node[economic] (pushborrowing) at ({\x{1978.9}},7.8) {
+    \textbf{SP Borrowing} \\
+    Banks seek\\borrowers abroad\\
+    loans to SP
+};
+
+
+\node[political] (yomkippur) at ({\x{1973.8}},11.2) {
+    \textbf{Yom Kippur War} \\
+    Oct 6-26, 1973 \\
+    Egypt \& Syria \\
+    attack Israel \\
+    US supports Israel
+};
+
+\node[trigger, inner sep=-0pt] (firstoil) at ({\x{1973.9}},8.) {
+    \textbf{First Oil} \\
+    \textbf{Shock} \\
+    Oct 1973 \\
+    \$3 → \$12/barrel \\
+    OPEC embargo
+};
+
+
+\node[economic, inner sep =4pt] (commodboom) at ({\x{1975.7}},8.) {
+    ~~~~~\textbf{Commodity Price Boom}~~~~~ \\
+    (1973-79) \\
+    Oil \& commodity prices surge \\
+    global inflationary pressure
+};
+
+\node[economic, draw=center] (lowrates) at ({\x{1978.4}},10.1) {
+    \textbf{Negative Real} \\
+    \textbf{Interest Rates} \\
+    Abundant liquidity \\
+    Easy credit \\
+    conditions
+};
+
+\node[superstructure] (prosperityhope) at ({\x{1978.6}},5.5) {
+    \textbf{Prosperity Hope} \\
+    \textbf{\& Catch-up} \\
+    \textbf{Optimism in SP} \\
+    Development potential \\
+    ISI industrialization
+};
+
+
+% ========== CENTER ECONOMY UNDERLYING CONDITIONS ==========
+\node[economic, draw=center] (lowprofitability) at ({\x{1976.2}},4.) {
+    \textbf{Low Growth and Profitability in the Center} \\
+    US profit rates ↓ \\
+    20.4\% → 15\% (1966-75) \\
+    Center competition
+};
+
+\node[political, draw=center] (labormovements) at ({\x{1976.2}},1.6) {
+    \textbf{Labor Movements \& Social Unrest in the US} \\
+    Vietnam War protests \\
+    5,716 strikes (1970) \\
+    Wage-price spiral
+};
+
+% ========== CENTER ECONOMY TRIGGERS ==========
+\node[political] (iranrevol) at ({\x{1979.1}},13.0) {
+    \textbf{Iranian} \\
+    \textbf{Revolution} \\
+    Jan 1979 \\
+    World oil \\
+    output ↓7\% \\
+};
+
+\node[trigger, inner sep=-4pt] (oilshock2) at ({\x{1979.7}},11.8) {
+    \textbf{Second} \\
+    \textbf{Oil Shock} \\
+    1979-1981 \\
+    \$13 → \$34/barrel
+};
+
+\node[trigger] (volcker) at ({\x{1979.5}},2) {
+    \textbf{Volcker Shock} \\
+    Oct 1979 - Jun 1981 \\
+    Fed rates: 5\% → 19\% \\
+    Anti-inflation policy
+};
+
+\node[economic] (libor) at ({\x{1980.4}},2.9) {
+    \textbf{LIBOR} \\
+    \textbf{Rate Surge} \\
+    Follows Fed rates \\
+    Peaks at 18\% (1981) \\
+    Variable rate impact \\
+    on SP debt
+};
+
+
+
+\node[economic] (usinflation) at ({\x{1978.5}},2) {
+    \textbf{High US Inflation} \\
+    Peak 13.5\% (1980) \\
+    Labor movements
+};
+
+% ========== TRANSMISSION MECHANISMS ==========
+\node[economic] (dollardeb) at ({\x{1980.2}},7.5) {
+    \textbf{Debt Burden in SP} \\
+    Borrowing in foreign currency \\
+    LatAm debt 4x increase \\
+    \$75B→\$315B (1975-83)
+};
+
+% ========== LATIN AMERICA DEBT CRISES (Volcker Impact + Commodity Dependence) ==========
+\node[crisis, draw=semiperiph, inner sep=-10pt] (debtcrisis) at ({\x{1982.5}},6) {
+    \textbf{Debt Crisis} \\
+    109 debt restructurings \\
+    1982-1989 \\
+};
+
+
+
+
+% ========== ARROWS - CAUSAL RELATIONSHIPS ==========
+% 1970s causal chain: euromarkets → petrodollar → negative rates → push towards borrowing to semi-periphery
+\draw[->, thick, color=center] (euromarkets.280) -- (petrodollar.120);
+\draw[->, thick, color=center] (petrodollar.348) -- (lowrates.175);
+\draw[->, thick, color=center] (lowrates.290) -- (pushborrowing.130);
+\draw[<->, thick, color=center] (prosperityhope.80) -- (pushborrowing.220);
+\draw[->, thick] (pushborrowing.east) to[bend left=10] (dollardeb.south);
+
+% Commodity boom effects
+\draw[->, thick, color=center] (commodboom.330) -- (prosperityhope.north west);
+\draw[->, thick, color=center] (commodboom.north east) to[bend left=0] (lowrates.190);
+\draw[->, thick, color=center] (commodboom.north) to[bend left=45] (petrodollar.west);
+\draw[->, thick, color=center] (commodboom.300) to[bend left=0] (usinflation.120);
+\draw[->, thick, color=center] (commodboom.south) to[bend right=30] (lowprofitability.north west);
+
+% Low profitability contributing to SP optimism (relative advantage perception)
+\draw[->, thick, color=center] (lowprofitability.east) to[bend right=15] (prosperityhope.south west);
+\draw[->, thick, color=center] (lowprofitability.north east) to[bend right=40] (petrodollar.south east);
+
+% Center economy underlying conditions causing inflation
+\draw[->, thick, color=center] (lowprofitability.south east) to[bend right=10] (usinflation.170);
+\draw[->, thick, color=center] (lowprofitability.60) to[bend left=10] (lowrates.south west);
+\draw[->, thick, color=center] (labormovements.east) -- (usinflation.185);
+\draw[<->, dashed, color=center] (labormovements.north) -- (lowprofitability.south);
+
+% Primary triggers
+\draw[->, thick] (yomkippur.south) -- (firstoil.north);
+\draw[->, thick] (firstoil.east) -- (commodboom.west);
+\draw[->, thick] (iranrevol.east) -- (oilshock2.140);
+\draw[->, thick] (oilshock2.240) to[bend right=10] (volcker.100);
+\draw[->, thick] (usinflation.east) -- (volcker.west);
+
+% Transmission mechanisms
+\draw[->, thick] (volcker.north east) -- (libor.south west);
+\draw[->, thick] (libor.north east) -- (debtcrisis.south west);
+\draw[->, thick] (oilshock2.320) to[bend left=15] (dollardeb.north);
+
+% Draw the legend
+\drawLegend
+
+\end{tikzpicture}
+\end{document}
